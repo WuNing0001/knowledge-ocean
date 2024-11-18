@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温馨知识海洋</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 天空区域 -->
+        <div class="sky">
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+            <div class="cloud cloud3"></div>
+        </div>
+        
+        <!-- 海洋区域 -->
+        <div class="ocean">
+            <div class="waves">
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <!-- 知识泡泡容器 -->
+            <div class="bubbles-container">
+                <div class="bubble bubble-life" style="left: 20%; bottom: 40%;" data-type="生活">生活感悟</div>
+                <div class="bubble bubble-work" style="left: 40%; bottom: 60%;" data-type="工作">工作笔记</div>
+                <div class="bubble bubble-study" style="left: 60%; bottom: 50%;" data-type="学习">学习心得</div>
+                <div class="bubble bubble-emotion" style="left: 80%; bottom: 45%;" data-type="情感">情感日记</div>
+            </div>
+            <!-- 深渊通道系统 -->
+            <div class="abyss-system">
+                <div class="abyss-portal">
+                    <div class="portal-ripples"></div>
+                    <div class="portal-core"></div>
+                </div>
+                <div class="abyss-tunnel" style="display: none;">
+                    <div class="tunnel-walls"></div>
+                    <div class="ghost-container"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 沙滩区域 -->
+        <div class="beach"></div>
+    </div>
+
+    <!-- 编辑面板 -->
+    <div class="edit-panel" style="display: none;">
+        <div class="edit-content">
+            <textarea placeholder="在这里写下你的想法..."></textarea>
+            <div class="edit-tools">
+                <button class="save-btn">保存</button>
+                <button class="cancel-btn">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑系统面板 -->
+    <div class="edit-system" style="display: none;">
+        <div class="edit-panel">
+            <div class="panel-header">
+                <h3>创建知识泡泡</h3>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="panel-content">
+                <div class="category-selector">
+                    <button class="category-btn life">生活</button>
+                    <button class="category-btn work">工作</button>
+                    <button class="category-btn study">学习</button>
+                    <button class="category-btn emotion">情感</button>
+                    <button class="category-btn social">社交</button>
+                    <button class="category-btn career">事业</button>
+                </div>
+                <div class="editor-container">
+                    <input type="text" class="title-input" placeholder="输入标题...">
+                    <div class="rich-editor" contenteditable="true"></div>
+                    <div class="editor-toolbar">
+                        <button data-tool="bold">B</button>
+                        <button data-tool="italic">I</button>
+                        <button data-tool="image">图片</button>
+                        <button data-tool="link">链接</button>
+                    </div>
+                </div>
+                <div class="attachment-area">
+                    <div class="attachment-preview"></div>
+                    <input type="file" id="file-upload" hidden>
+                    <label for="file-upload" class="upload-btn">添加附件</label>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="save-btn">保存泡泡</button>
+                <button class="cancel-btn">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
