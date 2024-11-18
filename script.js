@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 泡泡点击事件
     document.querySelectorAll('.bubble').forEach(bubble => {
         bubble.addEventListener('click', (e) => {
-            const editPanel = document.querySelector('.edit-panel');
+            const editPanel = document.querySelector('.edit-system');
             editPanel.style.display = 'flex';
             e.stopPropagation();
         });
@@ -69,49 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
     }
-    
-    // 保存功能
-    document.querySelector('.save-btn').addEventListener('click', () => {
-        const title = document.querySelector('.title-input').value;
-        const content = richEditor.innerHTML;
-        const category = document.querySelector('.category-btn.active').dataset.category;
-        
-        saveBubble({
-            title,
-            content,
-            category,
-            timestamp: new Date().toISOString()
-        });
-        
-        closeEditPanel();
-    });
-    
-    function saveBubble(data) {
-        // 这里可以连接后端API
-        console.log('Saving bubble:', data);
-        createBubbleElement(data);
-    }
-    
-    function createBubbleElement(data) {
-        const bubble = document.createElement('div');
-        bubble.className = `bubble bubble-${data.category}`;
-        bubble.innerHTML = `<h4>${data.title}</h4>`;
-        document.querySelector('.bubbles-container').appendChild(bubble);
-        
-        // 添加动画和交互
-        initializeBubble(bubble);
-    }
-
-    // 在现有代码中添加以下函数
-    function playAmbientSound() {
-        // 可以在这里添加背景音效
-        console.log('Playing ambient sound');
-    }
-
-    function playGhostSound() {
-        const randomSound = ghostSounds[Math.floor(Math.random() * ghostSounds.length)];
-        randomSound.play().catch(err => console.log('Audio play failed:', err));
-    }
 
     function insertImage() {
         const url = prompt('请输入图片URL:');
@@ -133,18 +90,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.edit-system').style.display = 'none';
     }
 
+    function createBubbleElement(data) {
+        const bubble = document.createElement('div');
+        bubble.className = `bubble bubble-${data.category}`;
+        bubble.innerHTML = `<span>${data.title}</span>`;
+        document.querySelector('.bubbles-container').appendChild(bubble);
+        initializeBubble(bubble);
+    }
+
     function initializeBubble(bubble) {
         bubble.addEventListener('click', (e) => {
-            const editPanel = document.querySelector('.edit-panel');
+            const editPanel = document.querySelector('.edit-system');
             editPanel.style.display = 'flex';
             e.stopPropagation();
         });
-        
-        // 添加浮动动画
         bubble.style.animationDelay = `${Math.random() * 2}s`;
     }
 
-    // 在 DOMContentLoaded 事件处理函数中添加
     // 关闭编辑面板的功能
     document.querySelector('.close-btn').addEventListener('click', closeEditPanel);
     document.querySelector('.cancel-btn').addEventListener('click', closeEditPanel);
@@ -163,4 +125,26 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
         });
     });
-}); 
+
+    // 保存功能
+    document.querySelector('.save-btn').addEventListener('click', () => {
+        const title = document.querySelector('.title-input').value;
+        const content = richEditor.innerHTML;
+        const activeBtn = document.querySelector('.category-btn.active');
+        
+        if (!title || !content || !activeBtn) {
+            alert('请填写完整信息');
+            return;
+        }
+
+        const category = activeBtn.classList[1]; // 获取类别
+        
+        createBubbleElement({
+            title,
+            content,
+            category
+        });
+        
+        closeEditPanel();
+    });
+});
