@@ -1,18 +1,424 @@
-// 删除所有与 abyss 相关的代码和函数
-document.addEventListener('DOMContentLoaded', () => {
-    // ... 保留现有的泡泡和编辑系统相关代码 ...
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    // 添加遮阳伞动画
-    const umbrellas = document.querySelector('.umbrellas');
-    setInterval(() => {
-        const rotation = Math.sin(Date.now() / 2000) * 3;
-        umbrellas.style.transform = `rotate(${rotation}deg)`;
-    }, 100);
+.container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background-color: #faf8ff;
+}
 
-    // 添加椰子树摇摆动画
-    const palmTrees = document.querySelector('.palm-trees');
-    setInterval(() => {
-        const rotation = Math.sin(Date.now() / 1500) * 2;
-        palmTrees.style.transform = `rotate(${rotation}deg)`;
-    }, 100);
-});
+/* 天空区域 - 使用柔和的渐变色 */
+.sky {
+    height: 50%;
+    background: linear-gradient(to bottom, #e8f4ff, #d4e9ff);
+    position: relative;
+    animation: skyBreathing 8s ease-in-out infinite;
+}
+
+/* 云朵样式 - 更柔和的设计 */
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50px;
+    filter: blur(3px);
+    box-shadow: 0 2px 15px rgba(255, 255, 255, 0.8);
+}
+
+.cloud::before,
+.cloud::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+}
+
+.cloud1 {
+    width: 120px;
+    height: 40px;
+    top: 20%;
+    animation: floatCloud 45s linear infinite;
+}
+
+.cloud1::before {
+    width: 50px;
+    height: 50px;
+    top: -20px;
+    left: 15px;
+}
+
+.cloud2 {
+    width: 180px;
+    height: 60px;
+    top: 35%;
+    animation: floatCloud 35s linear infinite;
+    animation-delay: -10s;
+}
+
+.cloud3 {
+    width: 100px;
+    height: 35px;
+    top: 50%;
+    animation: floatCloud 40s linear infinite;
+    animation-delay: -5s;
+}
+
+/* 海洋区域 - 梦幻渐变 */
+.ocean {
+    height: 50%;
+    background: linear-gradient(to bottom, #b8e3ff, #89cff0);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 波浪效果 - 多层次波浪 */
+.waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100px;
+}
+
+.wave {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"><path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 73.84-4.36 147.54 16.88 218.2 35.26 69.27 18 138.3 24.88 209.4 13.08 36.15-6 69.85-17.84 104.45-29.34C989.49 25 1113-14.29 1200 52.47V0z" fill="%23ffffff" fill-opacity=".25"/></svg>') repeat-x;
+    animation: waveMotion 15s linear infinite;
+}
+
+.wave:nth-child(2) {
+    top: 10px;
+    opacity: 0.3;
+    animation: waveMotion 20s linear infinite reverse;
+}
+
+/* 知识泡泡基础样式 */
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    box-shadow: 
+        inset -5px -5px 15px rgba(255, 255, 255, 0.4),
+        inset 5px 5px 15px rgba(255, 255, 255, 0.4);
+    animation: bubbleFloat 8s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    padding: 10px;
+    font-weight: bold;
+    z-index: 2;
+    transform: scale(0.8);
+}
+
+/* 添加泡泡内容样式 */
+.bubble span {
+    display: block;
+    width: 100%;
+    word-break: break-word;
+}
+
+/* 泡泡悬停效果 */
+.bubble:hover {
+    transform: scale(1);
+}
+
+/* 泡泡类型样式 */
+.bubble-life { 
+    background: radial-gradient(circle at 30% 30%, rgba(255, 182, 193, 0.9), rgba(255, 182, 193, 0.6)); 
+}
+.bubble-work { 
+    background: radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.9), rgba(135, 206, 250, 0.6)); 
+}
+.bubble-study { 
+    background: radial-gradient(circle at 30% 30%, rgba(216, 191, 216, 0.9), rgba(216, 191, 216, 0.6)); 
+}
+.bubble-emotion { 
+    background: radial-gradient(circle at 30% 30%, rgba(255, 160, 122, 0.9), rgba(255, 160, 122, 0.6)); 
+}
+.bubble-social { background-color: rgba(144, 238, 144, 0.6); }
+.bubble-career { background-color: rgba(255, 215, 0, 0.6); }
+
+/* 沙滩区域 - 温暖色调 */
+.beach-scene {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30%;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.beach {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ffe4c4, #f5deb3);
+    transform: rotateX(10deg);
+    transform-origin: bottom;
+}
+
+/* 椰子树样式 */
+.palm-trees {
+    position: absolute;
+    bottom: 0;
+    right: 10%;
+    width: 40%;
+    height: 150%;
+    background-image: 
+        url('data:image/svg+xml,<svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,200 L60,100 C60,100 90,80 70,60 C50,40 40,60 40,60 L50,200" fill="%23654321"/><path d="M40,60 C40,60 0,40 20,20 C40,0 60,40 40,60" fill="%23228B22"/></svg>'),
+        url('data:image/svg+xml,<svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,200 L60,100 C60,100 90,80 70,60 C50,40 40,60 40,60 L50,200" fill="%23654321"/><path d="M40,60 C40,60 0,40 20,20 C40,0 60,40 40,60" fill="%23228B22"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right bottom, right 20% bottom;
+    background-size: 100px 200px;
+}
+
+/* 遮阳伞样式 */
+.umbrellas {
+    position: absolute;
+    bottom: 10%;
+    left: 15%;
+    width: 70%;
+    height: 80%;
+}
+
+.umbrellas::before,
+.umbrellas::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: 
+        radial-gradient(circle at 50% 0,
+            transparent 20px,
+            #ff6b6b 20px,
+            #ff6b6b 40px,
+            #ffffff 40px,
+            #ffffff 60px,
+            #ff6b6b 60px);
+}
+
+.umbrellas::before {
+    left: 20%;
+    transform: rotate(5deg);
+}
+
+.umbrellas::after {
+    left: 50%;
+    transform: rotate(-5deg);
+}
+
+/* 商店样式 */
+.shop {
+    position: absolute;
+    bottom: 20%;
+    right: 5%;
+    width: 150px;
+    height: 100px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.shop::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: #ff9f43;
+    border-radius: 10px 10px 0 0;
+}
+
+/* 动画关键帧 */
+@keyframes skyBreathing {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes floatCloud {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100vw); }
+}
+
+@keyframes waveMotion {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@keyframes bubbleFloat {
+    0%, 100% { 
+        transform: scale(0.8) translateY(0);
+    }
+    50% { 
+        transform: scale(0.8) translateY(-20px);
+    }
+}
+
+/* 深渊通道入口 */
+.abyss-portal {
+    position: absolute;
+    bottom: 5%;
+    left: 10%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at center, #000033, transparent);
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: portalPulse 4s ease-in-out infinite;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+@keyframes portalPulse {
+    0%, 100% { transform: scale(1); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+}
+
+/* 深渊通道样式增强 */
+.abyss-system {
+    position: absolute;
+    bottom: 5%;
+    left: 10%;
+    perspective: 1000px;
+}
+
+.portal-ripples {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, 
+        rgba(0, 0, 51, 0.8),
+        rgba(0, 0, 51, 0.1));
+    animation: rippleEffect 3s infinite;
+}
+
+.portal-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle at center,
+        #000066,
+        #000033);
+    border-radius: 50%;
+    box-shadow: 0 0 20px #000066;
+}
+
+/* 编辑系统样式 */
+.edit-system {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.edit-panel {
+    width: 80%;
+    max-width: 800px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-selector {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.editor-container {
+    padding: 15px;
+}
+
+.rich-editor {
+    min-height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* 动画效果 */
+@keyframes rippleEffect {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(1.2); opacity: 0; }
+}
+
+.category-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.close-btn {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.close-btn:hover {
+    color: #ff4444;
+}
+
+.edit-panel .save-btn,
+.edit-panel .cancel-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.edit-panel .save-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.edit-panel .cancel-btn {
+    background-color: #dc3545;
+    color: white;
+} 
