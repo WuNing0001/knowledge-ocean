@@ -1,110 +1,13 @@
-/* 删除所有 abyss 相关的样式，添加新的海滩场景样式 */
-
-/* 修改沙滩区域样式 */
-.beach-scene {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 30%;
-    perspective: 1000px;
-    transform-style: preserve-3d;
+/* 修改泡泡类型样式，增加透明度和渐变效果 */
+.bubble-life { 
+    background: radial-gradient(circle at 30% 30%, rgba(255, 182, 193, 0.9), rgba(255, 182, 193, 0.6)); 
 }
-
-.beach {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #ffe4c4, #f5deb3);
-    transform: rotateX(10deg);
-    transform-origin: bottom;
+.bubble-work { 
+    background: radial-gradient(circle at 30% 30%, rgba(135, 206, 250, 0.9), rgba(135, 206, 250, 0.6)); 
 }
-
-/* 椰子树样式 */
-.palm-trees {
-    position: absolute;
-    bottom: 0;
-    right: 10%;
-    width: 40%;
-    height: 150%;
-    background-image: 
-        url('data:image/svg+xml,<svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,200 L60,100 C60,100 90,80 70,60 C50,40 40,60 40,60 L50,200" fill="%23654321"/><path d="M40,60 C40,60 0,40 20,20 C40,0 60,40 40,60" fill="%23228B22"/></svg>'),
-        url('data:image/svg+xml,<svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg"><path d="M50,200 L60,100 C60,100 90,80 70,60 C50,40 40,60 40,60 L50,200" fill="%23654321"/><path d="M40,60 C40,60 0,40 20,20 C40,0 60,40 40,60" fill="%23228B22"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right bottom, right 20% bottom;
-    background-size: 100px 200px;
+.bubble-study { 
+    background: radial-gradient(circle at 30% 30%, rgba(216, 191, 216, 0.9), rgba(216, 191, 216, 0.6)); 
 }
-
-/* 遮阳伞样式 */
-.umbrellas {
-    position: absolute;
-    bottom: 10%;
-    left: 15%;
-    width: 70%;
-    height: 80%;
-}
-
-.umbrellas::before,
-.umbrellas::after {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: 
-        radial-gradient(circle at 50% 0,
-            transparent 20px,
-            #ff6b6b 20px,
-            #ff6b6b 40px,
-            #ffffff 40px,
-            #ffffff 60px,
-            #ff6b6b 60px);
-}
-
-.umbrellas::before {
-    left: 20%;
-    transform: rotate(5deg);
-}
-
-.umbrellas::after {
-    left: 50%;
-    transform: rotate(-5deg);
-}
-
-/* 商店样式 */
-.shop {
-    position: absolute;
-    bottom: 20%;
-    right: 5%;
-    width: 150px;
-    height: 100px;
-    background: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.shop::before {
-    content: '';
-    position: absolute;
-    top: -30px;
-    left: 0;
-    width: 100%;
-    height: 30px;
-    background: #ff9f43;
-    border-radius: 10px 10px 0 0;
-}
-
-/* 调整海洋区域高度 */
-.ocean {
-    height: 50%;  /* 减少海洋高度 */
-}
-
-/* 调整天空区域高度 */
-.sky {
-    height: 50%;  /* 增加天空高度，让视角更远 */
-}
-
-/* 修改泡泡位置范围 */
-.bubble {
-    /* ... 保持现有样式 ... */
-    transform: scale(0.8);  /* 让泡泡稍微小一点 */
+.bubble-emotion { 
+    background: radial-gradient(circle at 30% 30%, rgba(255, 160, 122, 0.9), rgba(255, 160, 122, 0.6)); 
 }
